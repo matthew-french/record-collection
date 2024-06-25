@@ -16,7 +16,6 @@ const CollectionPaginationcomponent: React.FC<PaginationProps> = ({ currentPage,
         <PaginationItem>
           <PaginationPrevious
             href={`${basePath}?page=${Math.max(1, currentPage - 1)}&perPage=${perPage}&sort=artist&sortOrder=asc`}
-            disabled={currentPage === 1}
             isActive={currentPage === 1}
           />
         </PaginationItem>
@@ -33,7 +32,6 @@ const CollectionPaginationcomponent: React.FC<PaginationProps> = ({ currentPage,
         <PaginationItem>
           <PaginationNext
             href={`${basePath}?page=${Math.min(totalPages, currentPage + 1)}&perPage=${perPage}&sort=artist&sortOrder=asc`}
-            disabled={currentPage === totalPages}
             isActive={currentPage === totalPages}
           />
         </PaginationItem>
