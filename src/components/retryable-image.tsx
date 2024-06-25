@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
-const RetryableImage = ({ src, alt, width, height, className }) => {
+interface RetryableImageProps {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  className: string;
+}
+
+const RetryableImage = ({ src, alt, width, height, className }: RetryableImageProps) => {
   const [currentSrc, setCurrentSrc] = useState(src);
   const [loading, setLoading] = useState(true); // Added loading state
   const [attempts, setAttempts] = useState(0);
