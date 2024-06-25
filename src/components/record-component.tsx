@@ -37,7 +37,7 @@ const RecordComponent: React.FC<RecordProps> = ({
   <div key={id} className="bg-white dark:bg-gray-950 rounded-lg shadow-lg overflow-hidden">
     <div className="flex flex-col w-full">
       <div className="relative w-full flex-grow">
-        <Link href={`/record/${artist.id}`}>
+        <Link href="#">
             <RetryableImage
               src={`${coverImage || '/placeholder.svg'}`}
               alt={artist.name}
