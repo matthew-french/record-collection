@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 
-import RecordComponent from '@/components/record-component';
-import CollectionPaginationcomponent from '@/components/collection-pagination-component';
+import CollectionsRecord from '@/components/collections-record';
+import CollectionsPagination from '@/components/collections-pagination';
 
 import DiscogResponse from "@/types/DiscogResponse";
 import { DiscogRecord} from "@/types/DiscogRecord";
@@ -28,9 +28,9 @@ interface Product {
   formats: string;
 };
 
-const CollectionPage: React.FC<DiscogResponse> = ({pagination, releases}) => {
+const Collections: React.FC<DiscogResponse> = ({pagination, releases}) => {
   const [products, setProducts] = useState<Product[]>([]);
-  const currentPage = pagination.page;
+  const currentPage = pagination.page || 1;
   const totalPages = pagination.pages;
 
   const productsWithIndex = products.map((product, index) => ({
@@ -64,7 +64,7 @@ const CollectionPage: React.FC<DiscogResponse> = ({pagination, releases}) => {
   return (
     <div className="container mx-auto px-4 md:px-6 py-8">
       <div className="mb-8 flex justify-center">
-        <CollectionPaginationcomponent
+        <CollectionsPagination
           currentPage={currentPage}
           totalPages={totalPages}
           perPage={pagination.per_page}
@@ -74,11 +74,11 @@ const CollectionPage: React.FC<DiscogResponse> = ({pagination, releases}) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {/* loop over products */}
         {productsWithIndex.map(product => (
-          <RecordComponent key={`${product.id}-${product.index}`} {...product} />
+          <CollectionsRecord key={`${product.id}-${product.index}`} {...product} />
         ))}
       </div>
       <div className="mt-8 flex justify-center">
-        <CollectionPaginationcomponent
+        <CollectionsPagination
           currentPage={currentPage}
           totalPages={totalPages}
           perPage={pagination.per_page}
@@ -89,4 +89,4 @@ const CollectionPage: React.FC<DiscogResponse> = ({pagination, releases}) => {
   )
 }
 
-export default CollectionPage
+export default Collections

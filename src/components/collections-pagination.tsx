@@ -9,29 +9,49 @@ interface PaginationProps {
   basePath: string;
 }
 
-const CollectionPaginationcomponent: React.FC<PaginationProps> = ({ currentPage, totalPages, perPage, basePath }) => {
+const collectionPagination: React.FC<PaginationProps> = ({ currentPage, totalPages, perPage, basePath }) => {
+
+  const getPaginationUrl = (page: number) => {
+    const queryParams = new URLSearchParams({
+      page: page.toString(),
+      perPage: perPage.toString(),
+      sort: 'artist',
+      sortOrder: 'asc',
+    }).toString();
+
+    return `${basePath}?${queryParams}`;
+  }
+
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={`${basePath}?page=${Math.max(1, currentPage - 1)}&perPage=${perPage}&sort=artist&sortOrder=asc`}
+            href={getPaginationUrl(Math.max(1, currentPage - 1))}
             isActive={currentPage === 1}
           />
         </PaginationItem>
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
-          <PaginationItem key={pageNumber}>
+
+          // Only show iteam if it with 3 of the current page when on mobile
+
+          <PaginationItem key={pageNumber}
+            className={(Math.abs(pageNumber - currentPage) > 1) ? 'hidden md:flex' : 'flex'}
+            >
             <PaginationLink
-              href={`${basePath}?page=${pageNumber}&perPage=${perPage}&sort=artist&sortOrder=asc`}
+              className={(Math.abs(pageNumber - currentPage) > 1) ? 'hidden md:flex' : 'flex'}
+              href={getPaginationUrl(pageNumber)}
               isActive={pageNumber === currentPage}
             >
               {pageNumber}
             </PaginationLink>
           </PaginationItem>
+
+
         ))}
         <PaginationItem>
           <PaginationNext
-            href={`${basePath}?page=${Math.min(totalPages, currentPage + 1)}&perPage=${perPage}&sort=artist&sortOrder=asc`}
+            href={getPaginationUrl(Math.max(1, currentPage + 1))}
             isActive={currentPage === totalPages}
           />
         </PaginationItem>
@@ -40,4 +60,4 @@ const CollectionPaginationcomponent: React.FC<PaginationProps> = ({ currentPage,
   );
 };
 
-export default CollectionPaginationcomponent;
+export default collectionPagination;

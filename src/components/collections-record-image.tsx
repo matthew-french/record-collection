@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
-interface RetryableImageProps {
+interface CollectionsRecordImage {
   src: string;
   alt: string;
   width: number;
@@ -9,16 +9,22 @@ interface RetryableImageProps {
   className: string;
 }
 
-const RetryableImage = ({ src, alt, width, height, className }: RetryableImageProps) => {
+const imageCache = new Set(); // Cache to store loaded images
+
+const CollectionsRecordImage = ({ src, alt, width, height, className }: CollectionsRecordImage) => {
   const [currentSrc, setCurrentSrc] = useState(src);
-  const [loading, setLoading] = useState(true); // Added loading state
+  const [loading, setLoading] = useState(true);
   const [attempts, setAttempts] = useState(0);
   const [isPriority, setIsPriority] = useState(false);
   const imageRef = useRef(null);
 
   useEffect(() => {
+    if (imageCache.has(src)) {
+      setLoading(false); // If image is cached, no need to load again
+      return;
+    }
     setCurrentSrc(src);
-    setLoading(true); // Reset loading state when src changes
+    setLoading(true);
     setAttempts(0);
   }, [src]);
 
@@ -30,8 +36,8 @@ const RetryableImage = ({ src, alt, width, height, className }: RetryableImagePr
         });
       },
       {
-        rootMargin: '0px',
-        threshold: 0.01,
+        rootMargin: '10%',
+        threshold: 0.10,
       }
     );
 
@@ -45,22 +51,23 @@ const RetryableImage = ({ src, alt, width, height, className }: RetryableImagePr
   }, []);
 
   const handleLoad = () => {
-    setLoading(false); // Update loading state when image has loaded
+    setLoading(false);
+    imageCache.add(src); // Add successfully loaded image to cache
   };
 
   const handleError = () => {
     const maxAttempts = 3;
-    const delay = Math.pow(2, attempts) * 1000;
+    const delay = Math.pow(2, attempts) * 1000; // Adjusted backoff strategy
 
     if (attempts < maxAttempts) {
       setTimeout(() => {
         setCurrentSrc(`${src}?retry=${attempts}`);
         setAttempts(attempts + 1);
-        setLoading(true); // Ensure loading state is true when retrying
+        setLoading(true);
       }, delay);
     } else {
       setCurrentSrc('/placeholder.svg');
-      setLoading(false); // Ensure loading state is false when giving up
+      setLoading(false);
     }
   };
 
@@ -77,8 +84,7 @@ const RetryableImage = ({ src, alt, width, height, className }: RetryableImagePr
           onError={handleError}
         />
         {loading && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* Placeholder content here */}
+          <div className="absolute inset-0 flex items-center justify-center dark:text-gray-400">
             Loading...
           </div>
         )}
@@ -86,4 +92,4 @@ const RetryableImage = ({ src, alt, width, height, className }: RetryableImagePr
   );
 };
 
-export { RetryableImage };
+export { CollectionsRecordImage };

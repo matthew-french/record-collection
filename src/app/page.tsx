@@ -1,7 +1,9 @@
-import CollectionPage  from "@/components/collection-page"
+import Collections  from "@/components/collections"
 import DiscogResponse from "@/types/DiscogResponse"
 
-// http://localhost:3000/?page=2&perPage=48&sort=artist&sortOrder=asc
+const DISCOGS_KEY = process.env.DISCOGS_CONSUMER_KEY;
+const DISCOGS_SECRET = process.env.DISCOGS_SECRET;
+
 
 interface SearchParams {
   page: string;
@@ -11,16 +13,21 @@ interface SearchParams {
 }
 
 export default async function Home({ searchParams } : { searchParams: SearchParams }) {
-  const { page = 1, perPage = 40, sort = 'artist', sortOrder = 'asc' } = searchParams;
+  const { page = '1', perPage = '40', sort = 'artist', sortOrder = 'asc' } = searchParams;
+
+  const validSortOrders = ['asc', 'desc'];
+  const validSorts = ['label', 'artist', 'title', 'catno', 'format', 'rating', 'added', 'year'];
 
 
-  const DISCOGS_KEY = process.env.DISCOGS_CONSUMER_KEY;
-  const DISCOGS_SECRET = process.env.DISCOGS_SECRET;
+  const validSortOrder = (!validSorts.includes(sort)) ? 'asc' : sortOrder;
+  const validSort = (!validSortOrders.includes(sortOrder)) ? 'artist' : sort;
+  const validPage = parseInt(page) ? parseInt(page) : '1';
+  const validPerPage = parseInt(perPage) ? parseInt(perPage) : '40';
 
   const callAPI = async (): Promise<DiscogResponse> => {
     try {
         const res = await fetch(
-            `https://api.discogs.com/users/munkle/collection/folders/0/releases?page=${page}&per_page=${perPage}&sort=${sort}&sort_order=${sortOrder}`,
+            `https://api.discogs.com/users/munkle/collection/folders/0/releases?page=${validPage}&per_page=${validPerPage}&sort=${validSort}&sort_order=${validSortOrder}`,
             {
                 method: 'GET',
                 headers: {
@@ -29,12 +36,19 @@ export default async function Home({ searchParams } : { searchParams: SearchPara
                 }
             }
         );
+
         const data = await res.json();
+
+        const { message } = data;
+
+        if (message) {
+            throw new Error(message);
+        }
 
         return data;
     } catch (err) {
         console.log(err);
-        throw new Error("Failed to fetch data from Discogs API");
+        throw new Error("Failed to fetch data from Discogs API" + err);
     }
   };
 
@@ -43,11 +57,9 @@ export default async function Home({ searchParams } : { searchParams: SearchPara
 
   const { pagination, releases } = res;
 
-  console.log('Pagination', pagination);
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <CollectionPage pagination={pagination} releases={releases} />
+    <main className="flex min-h-screen flex-col items-center justify-between sm:p-1 md:p-12">
+      <Collections pagination={pagination} releases={releases} />
     </main>
   );
 }
