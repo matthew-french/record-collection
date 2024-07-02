@@ -30,24 +30,86 @@ body {
 .loader {
   width: 85px;
   height: 25px;
-  --g1:conic-gradient(from  90deg at left   3px top   3px,#0000 90deg,#fff 0);
-  --g2:conic-gradient(from -90deg at bottom 3px right 3px,#0000 90deg,#fff 0);
-  background:var(--g1),var(--g1),var(--g1), var(--g2),var(--g2),var(--g2);
-  background-position: left,center,right;
+  --g1: conic-gradient(from 90deg at left 3px top 3px, #0000 90deg, #fff 0);
+  --g2: conic-gradient(
+    from -90deg at bottom 3px right 3px,
+    #0000 90deg,
+    #fff 0
+  );
+  background: var(--g1), var(--g1), var(--g1), var(--g2), var(--g2), var(--g2);
+  background-position: left, center, right;
   background-repeat: no-repeat;
   animation: l8 1s infinite;
 }
 @keyframes l8 {
-  0%   {background-size:25px 100%,25px 100%,25px 100%}
-  20%  {background-size:25px 50% ,25px 100%,25px 100%}
-  40%  {background-size:25px 50% ,25px 50% ,25px 100%}
-  60%  {background-size:25px 100%,25px 50% ,25px 50% }
-  80%  {background-size:25px 100%,25px 100%,25px 50% }
-  100% {background-size:25px 100%,25px 100%,25px 100%}
+  0% {
+    background-size:
+      25px 100%,
+      25px 100%,
+      25px 100%;
+  }
+  20% {
+    background-size:
+      25px 50%,
+      25px 100%,
+      25px 100%;
+  }
+  40% {
+    background-size:
+      25px 50%,
+      25px 50%,
+      25px 100%;
+  }
+  60% {
+    background-size:
+      25px 100%,
+      25px 50%,
+      25px 50%;
+  }
+  80% {
+    background-size:
+      25px 100%,
+      25px 100%,
+      25px 50%;
+  }
+  100% {
+    background-size:
+      25px 100%,
+      25px 100%,
+      25px 100%;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer utilities {
+  @variants responsive {
+    .masonry {
+      column-gap: 1.5em;
+      column-count: 2;
+    }
+    .masonry-sm {
+      column-gap: 1.5em;
+      column-count: 4;
+    }
+    .masonry-md {
+      column-gap: 1em;
+      column-count: 6;
+    }
+    .masonry-lg {
+      column-gap: 1em;
+      column-count: 8;
+    }
+    .masonry-xl {
+      column-gap: 1em;
+      column-count: 10;
+    }
+    .break-inside {
+      break-inside: avoid;
+    }
   }
 }

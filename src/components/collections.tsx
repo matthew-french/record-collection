@@ -1,46 +1,51 @@
-"use client"
+'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react'
 
-import CollectionsRecord from '@/components/collections-record';
-import CollectionsPagination from '@/components/collections-pagination';
+const LazyCollectionsRecord = React.lazy(
+  () => import('@/components/collections-record')
+)
 
-import DiscogResponse from "@/types/DiscogResponse";
-import { DiscogRecord} from "@/types/DiscogRecord";
+import CollectionsPagination from '@/components/collections-pagination'
+
+import DiscogResponse from '@/types/DiscogResponse'
+import { DiscogRecord } from '@/types/DiscogRecord'
 
 interface Artist {
-  name: string;
-  id: string;
-  resourceUrl: string;
+  name: string
+  id: string
+  resourceUrl: string
 }
 
 interface Product {
-  coverImage: string;
-  id: number;
-  thumb: string;
-  year: number;
-  title: string;
-  genres: string;
-  artist: Artist;
-  styles: string;
-  masterUrl: string;
-  resourceUrl: string;
-  formats: string;
-};
+  coverImage: string
+  id: number
+  thumb: string
+  year: number
+  title: string
+  genres: string
+  artist: Artist
+  styles: string
+  masterUrl: string
+  resourceUrl: string
+  formats: string
+  index: number
+}
 
-const Collections: React.FC<DiscogResponse> = ({pagination, releases}) => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const currentPage = pagination.page || 1;
-  const totalPages = pagination.pages;
+const Collections: React.FC<DiscogResponse> = ({ pagination, releases }) => {
+  // const [products, setProducts] = useState<Product[]>([])
+  const currentPage = pagination.page || 1
+  const totalPages = pagination.pages
 
-  const productsWithIndex = products.map((product, index) => ({
-    ...product,
-    index: index // Adding an index property
-  }));
+  // const productsWithIndex = products.map((product, index) => ({
+  //   ...product,
+  //   index: index, // Adding an index property
+  // }))
 
-  useEffect(() => {
-    // Convert releases to the desired format for products
-    const newProducts: Product[] = releases.map(({ basic_information }: DiscogRecord) => ({
+  // useEffect(() => {
+  // Convert releases to the desired format for products
+  const products: Product[] = releases.map(
+    ({ basic_information }: DiscogRecord, index) => ({
       coverImage: basic_information.cover_image,
       id: basic_information.id,
       thumb: basic_information.thumb,
@@ -55,37 +60,46 @@ const Collections: React.FC<DiscogResponse> = ({pagination, releases}) => {
       styles: basic_information.styles.join(', '),
       masterUrl: basic_information.master_url,
       resourceUrl: basic_information.resource_url,
-      formats: basic_information.formats.map(format => format.name).join(', '),
-    }));
+      formats: basic_information.formats
+        .map((format) => format.name)
+        .join(', '),
+      index: index,
+    })
+  )
 
-    setProducts(newProducts); // Update the state with the new products
-  }, [currentPage, releases]); // Depend on currentPage and releases to trigger the effect
+  //   setProducts(newProducts) // Update the state with the new products
+  // }, [currentPage, releases]) // Depend on currentPage and releases to trigger the effect
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8">
-      <div className="mb-8 flex justify-center">
-        <CollectionsPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          perPage={pagination.per_page}
-          basePath={`/`}
-        />
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="container mx-auto px-4 md:px-6 py-8">
+        <div className="mb-8 flex justify-center">
+          <CollectionsPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            perPage={pagination.per_page}
+            basePath={`/`}
+          />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {/* loop over products */}
+          {products.map((product) => (
+            <LazyCollectionsRecord
+              key={`${product.id}-${product.index}`}
+              {...product}
+            />
+          ))}
+        </div>
+        <div className="mt-8 flex justify-center">
+          <CollectionsPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            perPage={pagination.per_page}
+            basePath={`/`}
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {/* loop over products */}
-        {productsWithIndex.map(product => (
-          <CollectionsRecord key={`${product.id}-${product.index}`} {...product} />
-        ))}
-      </div>
-      <div className="mt-8 flex justify-center">
-        <CollectionsPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          perPage={pagination.per_page}
-          basePath={`/`}
-        />
-      </div>
-    </div>
+    </Suspense>
   )
 }
 

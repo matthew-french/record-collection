@@ -1,4 +1,4 @@
-import Collections from '@/components/collections'
+import CollectionsMasonry from '@/components/collections-masonry'
 import DiscogResponse from '@/types/DiscogResponse'
 
 const DISCOGS_KEY = process.env.DISCOGS_CONSUMER_KEY
@@ -37,13 +37,13 @@ export default async function Home({
 
   const validSortOrder = !validSorts.includes(sort) ? 'asc' : sortOrder
   const validSort = !validSortOrders.includes(sortOrder) ? 'artist' : sort
-  const validPage = parseInt(page) ? parseInt(page) : '1'
-  const validPerPage = parseInt(perPage) ? parseInt(perPage) : '40'
+  const validPage = parseInt(page) ? parseInt(page) : 1
+  const validPerPage = parseInt(perPage) ? parseInt(perPage) : 39
 
   const callAPI = async (): Promise<DiscogResponse> => {
     try {
       const res = await fetch(
-        `https://api.discogs.com/users/munkle/collection/folders/0/releases?page=${validPage}&per_page=${validPerPage}&sort=${validSort}&sort_order=${validSortOrder}`,
+        `https://api.discogs.com/users/munkle/collection/folders/0/releases?page=${validPage}&per_page=${validPerPage}`,
         {
           method: 'GET',
           headers: {
@@ -74,7 +74,7 @@ export default async function Home({
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between sm:p-1 md:p-12">
-      <Collections pagination={pagination} releases={releases} />
+      <CollectionsMasonry pagination={pagination} releases={releases} />
     </main>
   )
 }
