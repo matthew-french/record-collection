@@ -1,15 +1,15 @@
-import { DiscogRecord } from "./DiscogRecord";
+import { DiscogRecord } from './DiscogRecord'
 
 interface DiscogResponse {
-  pagination: Pagination;
-  releases: DiscogRecord[];
+  pagination: Pagination
+  releases: DiscogRecord[]
 }
 
 interface Pagination {
-  page: number;
-  pages: number;
-  per_page: number;
-  items: number;
-  urls: any;
+  page: number
+  pages: number
+  per_page: number
+  items: number
+  urls: any
 }
-export default DiscogResponse;
+export default DiscogResponse

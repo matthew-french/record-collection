@@ -31,8 +31,6 @@ const CollectionsMasonary: React.FC<DiscogResponse> = ({
   pagination,
   releases,
 }) => {
-  const currentPage = pagination.page || 1
-
   // Convert releases to the desired format for products
   const products: Product[] = releases.map(
     ({ basic_information }: DiscogRecord) => ({
@@ -59,11 +57,11 @@ const CollectionsMasonary: React.FC<DiscogResponse> = ({
   return (
     <div className="masonry sm:masonry-sm md:masonry-md">
       {products.map((product, index) => (
-        <div className="rounded-lg p-1 pb-6 break-inside">
-          <CollectionsRecordMasonry
-            key={`${product.id}-${index}`}
-            {...product}
-          />
+        <div
+          key={`${product.id}-${index}`}
+          className="rounded-lg p-1 pb-6 break-inside"
+        >
+          <CollectionsRecordMasonry {...product} />
         </div>
       ))}
     </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, Suspense } from 'react'
+import React, { Suspense } from 'react'
 
 const LazyCollectionsRecord = React.lazy(
   () => import('@/components/collections-record')
