@@ -38,7 +38,7 @@ export default async function Home({
   const validSortOrder = !validSorts.includes(sort) ? 'asc' : sortOrder
   const validSort = !validSortOrders.includes(sortOrder) ? 'artist' : sort
   const validPage = parseInt(page) ? parseInt(page) : 1
-  const validPerPage = parseInt(perPage) ? parseInt(perPage) : 39
+  const validPerPage = parseInt(perPage) ? parseInt(perPage) : 50
 
   const callAPI = async (): Promise<DiscogResponse> => {
     try {

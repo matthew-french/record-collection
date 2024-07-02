@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 import {
   Pagination,
@@ -7,13 +7,13 @@ import {
   PaginationPrevious,
   PaginationLink,
   PaginationNext,
-} from "@/components/ui/pagination";
+} from '@/components/ui/pagination'
 
 interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  perPage: number;
-  basePath: string;
+  currentPage: number
+  totalPages: number
+  perPage: number
+  basePath: string
 }
 
 const collectionPagination: React.FC<PaginationProps> = ({
@@ -26,12 +26,12 @@ const collectionPagination: React.FC<PaginationProps> = ({
     const queryParams = new URLSearchParams({
       page: page.toString(),
       perPage: perPage.toString(),
-      sort: "artist",
-      sortOrder: "asc",
-    }).toString();
+      sort: 'artist',
+      sortOrder: 'asc',
+    }).toString()
 
-    return `${basePath}?${queryParams}`;
-  };
+    return `${basePath}?${queryParams}`
+  }
 
   return (
     <Pagination>
@@ -50,15 +50,15 @@ const collectionPagination: React.FC<PaginationProps> = ({
               key={pageNumber}
               className={
                 Math.abs(pageNumber - currentPage) > 1
-                  ? "hidden md:flex"
-                  : "flex"
+                  ? 'hidden md:flex'
+                  : 'flex'
               }
             >
               <PaginationLink
                 className={
                   Math.abs(pageNumber - currentPage) > 1
-                    ? "hidden md:flex"
-                    : "flex"
+                    ? 'hidden md:flex'
+                    : 'flex'
                 }
                 href={getPaginationUrl(pageNumber)}
                 isActive={pageNumber === currentPage}
@@ -76,7 +76,7 @@ const collectionPagination: React.FC<PaginationProps> = ({
         </PaginationItem>
       </PaginationContent>
     </Pagination>
-  );
-};
+  )
+}
 
-export default collectionPagination;
+export default collectionPagination

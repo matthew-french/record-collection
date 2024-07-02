@@ -33,17 +33,9 @@ interface Product {
 }
 
 const Collections: React.FC<DiscogResponse> = ({ pagination, releases }) => {
-  // const [products, setProducts] = useState<Product[]>([])
   const currentPage = pagination.page || 1
   const totalPages = pagination.pages
 
-  // const productsWithIndex = products.map((product, index) => ({
-  //   ...product,
-  //   index: index, // Adding an index property
-  // }))
-
-  // useEffect(() => {
-  // Convert releases to the desired format for products
   const products: Product[] = releases.map(
     ({ basic_information }: DiscogRecord, index) => ({
       coverImage: basic_information.cover_image,
@@ -66,9 +58,6 @@ const Collections: React.FC<DiscogResponse> = ({ pagination, releases }) => {
       index: index,
     })
   )
-
-  //   setProducts(newProducts) // Update the state with the new products
-  // }, [currentPage, releases]) // Depend on currentPage and releases to trigger the effect
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
