@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { CollectionsRecordImage } from '@/components/collections-record-image'
+import CollectionsRecordImage from '@/components/collections-record-image'
 
 interface Artist {
   name: string

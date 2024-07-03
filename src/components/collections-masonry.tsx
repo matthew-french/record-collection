@@ -1,6 +1,4 @@
-'use client'
-
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 import CollectionsRecordMasonry from '@/components/collections-record-masonry'
 
@@ -15,6 +13,7 @@ interface Artist {
 
 interface Product {
   coverImage: string
+  imageSizeClass: string
   id: number
   thumb: string
   year: number
@@ -27,14 +26,24 @@ interface Product {
   formats: string
 }
 
-const CollectionsMasonary: React.FC<DiscogResponse> = ({
-  pagination,
-  releases,
-}) => {
+const CollectionsMasonary: React.FC<DiscogResponse> = ({ releases }) => {
+  const imageSizeClasses = [
+    'w-400 h-400',
+    'w-200 h-200',
+    'w-100 h-100',
+    'w-50 h-50',
+  ]
+
+  const randomImageSizeClasses = () => {
+    const res =
+      imageSizeClasses[Math.floor(Math.random() * imageSizeClasses.length)]
+    return res
+  }
   // Convert releases to the desired format for products
   const products: Product[] = releases.map(
     ({ basic_information }: DiscogRecord) => ({
       coverImage: basic_information.cover_image,
+      imageSizeClass: randomImageSizeClasses(),
       id: basic_information.id,
       thumb: basic_information.thumb,
       year: basic_information.year,

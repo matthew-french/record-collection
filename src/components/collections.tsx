@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Suspense } from 'react'
+import React from 'react'
 
 const LazyCollectionsRecord = React.lazy(
   () => import('@/components/collections-record')
@@ -29,7 +29,6 @@ interface Product {
   masterUrl: string
   resourceUrl: string
   formats: string
-  index: number
 }
 
 const Collections: React.FC<DiscogResponse> = ({ pagination, releases }) => {
@@ -55,40 +54,34 @@ const Collections: React.FC<DiscogResponse> = ({ pagination, releases }) => {
       formats: basic_information.formats
         .map((format) => format.name)
         .join(', '),
-      index: index,
     })
   )
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className="container mx-auto px-4 md:px-6 py-8">
-        <div className="mb-8 flex justify-center">
-          <CollectionsPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            perPage={pagination.per_page}
-            basePath={`/`}
-          />
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {/* loop over products */}
-          {products.map((product) => (
-            <LazyCollectionsRecord
-              key={`${product.id}-${product.index}`}
-              {...product}
-            />
-          ))}
-        </div>
-        <div className="mt-8 flex justify-center">
-          <CollectionsPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            perPage={pagination.per_page}
-            basePath={`/`}
-          />
-        </div>
+    <div className="container mx-auto px-4 md:px-6 py-8">
+      <div className="mb-8 flex justify-center">
+        <CollectionsPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          perPage={pagination.per_page}
+          basePath={`/`}
+        />
       </div>
-    </Suspense>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {/* loop over products */}
+        {products.map((product, index) => (
+          <LazyCollectionsRecord key={`${product.id}-${index}`} {...product} />
+        ))}
+      </div>
+      <div className="mt-8 flex justify-center">
+        <CollectionsPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          perPage={pagination.per_page}
+          basePath={`/`}
+        />
+      </div>
+    </div>
   )
 }
 

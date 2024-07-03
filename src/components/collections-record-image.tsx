@@ -9,7 +9,7 @@ interface CollectionsRecordImage {
   className: string
 }
 
-const imageCache = new Set() // Cache to store loaded images
+const imageCache = new Set()
 
 const CollectionsRecordImage = ({
   src,
@@ -21,12 +21,12 @@ const CollectionsRecordImage = ({
   const [currentSrc, setCurrentSrc] = useState(src)
   const [loading, setLoading] = useState(true)
   const [attempts, setAttempts] = useState(0)
-  const [isPriority, setIsPriority] = useState(false)
+  const [isInView, setIsInView] = useState(false) // Renamed isPriority to isInView for clarity
   const imageRef = useRef(null)
 
   useEffect(() => {
     if (imageCache.has(src)) {
-      setLoading(false) // If image is cached, no need to load again
+      setLoading(false)
       return
     }
     setCurrentSrc(src)
@@ -38,7 +38,7 @@ const CollectionsRecordImage = ({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          setIsPriority(entry.isIntersecting)
+          setIsInView(entry.isIntersecting) // Use isInView here
         })
       },
       {
@@ -58,12 +58,12 @@ const CollectionsRecordImage = ({
 
   const handleLoad = () => {
     setLoading(false)
-    imageCache.add(src) // Add successfully loaded image to cache
+    imageCache.add(src)
   }
 
   const handleError = () => {
     const maxAttempts = 3
-    const delay = Math.pow(2, attempts) * 1000 // Adjusted backoff strategy
+    const delay = Math.pow(2, attempts) * 1000
 
     if (attempts < maxAttempts) {
       setTimeout(() => {
@@ -79,18 +79,20 @@ const CollectionsRecordImage = ({
 
   return (
     <div ref={imageRef} className="relative">
-      <Image
-        src={currentSrc}
-        alt={alt}
-        width={width}
-        height={height}
-        className={className}
-        priority={isPriority}
-        onLoad={handleLoad}
-        onError={handleError}
-      />
+      <div className="relative aspect-w-1 aspect-h-1 z-10">
+        <Image
+          src={currentSrc}
+          alt={alt}
+          width={width}
+          height={height}
+          className={className}
+          priority={isInView} // Use isInView to determine priority
+          onLoad={handleLoad}
+          onError={handleError}
+        />
+      </div>
       {loading && (
-        <div className="absolute inset-0 flex items-center justify-center dark:text-gray-400">
+        <div className="absolute inset-0 flex items-center justify-center dark:text-gray-400 z-0">
           Loading...
         </div>
       )}
@@ -98,4 +100,4 @@ const CollectionsRecordImage = ({
   )
 }
 
-export { CollectionsRecordImage }
+export default CollectionsRecordImage

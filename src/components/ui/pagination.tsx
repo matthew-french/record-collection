@@ -8,6 +8,7 @@ import {
 import { cn } from '@/lib/utils'
 import { ButtonProps, buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
+import { on } from 'events'
 
 const Pagination = ({ className, ...props }: React.ComponentProps<'nav'>) => (
   <nav
@@ -41,12 +42,14 @@ PaginationItem.displayName = 'PaginationItem'
 
 type PaginationLinkProps = {
   isActive?: boolean
+  disabled?: boolean
 } & Pick<ButtonProps, 'size'> &
   React.ComponentProps<typeof Link>
 
 const PaginationLink = ({
   className,
   isActive,
+  disabled,
   size = 'icon',
   ...props
 }: PaginationLinkProps) => (
@@ -57,6 +60,9 @@ const PaginationLink = ({
         variant: isActive ? 'outline' : 'ghost',
         size,
       }),
+      {
+        invisible: disabled, // Add this line to simulate disabled state
+      },
       className
     )}
     {...props}

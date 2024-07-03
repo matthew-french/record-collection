@@ -1,6 +1,8 @@
-import Image from 'next/image'
+'use client'
+
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { CollectionsRecordImage } from '@/components/collections-record-image'
+import CollectionsRecordImage from '@/components/collections-record-image'
 
 interface Artist {
   name: string
@@ -10,6 +12,7 @@ interface Artist {
 
 interface RecordProps {
   coverImage: string
+  imageSizeClass: String
   id: number
   thumb: string
   year: number
@@ -25,6 +28,7 @@ interface RecordProps {
 const CollectionsRecordMasonry: React.FC<RecordProps> = ({
   id,
   coverImage,
+  imageSizeClass,
   artist,
   title,
   year,
@@ -34,18 +38,15 @@ const CollectionsRecordMasonry: React.FC<RecordProps> = ({
   genres,
   formats,
 }) => {
-  const numbers = [300, 300, 300, 300, 150, 150, 150, 75, 75]
-  const randomNumber = numbers[Math.floor(Math.random() * numbers.length)]
-
   return (
     <div key={id} className="">
       <Link href="#">
         <CollectionsRecordImage
           src={`${coverImage || '/placeholder.svg'}`}
           alt={artist.name}
-          width={randomNumber}
-          height={randomNumber}
-          className="object-contain rounded-sm"
+          width={640}
+          height={640}
+          className={`object-contain rounded-sm ${imageSizeClass}`}
         />
       </Link>
     </div>

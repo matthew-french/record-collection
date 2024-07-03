@@ -1,15 +1,6 @@
 import Collections from '@/components/collections'
-import DiscogResponse from '@/types/DiscogResponse'
-
-const DISCOGS_KEY = process.env.DISCOGS_CONSUMER_KEY
-const DISCOGS_SECRET = process.env.DISCOGS_SECRET
-
-interface SearchParams {
-  page: string
-  perPage: string
-  sort: string
-  sortOrder: string
-}
+import { fetchRecordCollection } from '@/lib/data'
+import SearchParams from '@/types/SearchParams'
 
 export default async function Home({
   searchParams,
@@ -24,6 +15,7 @@ export default async function Home({
   } = searchParams
 
   const validSortOrders = ['asc', 'desc']
+
   const validSorts = [
     'label',
     'artist',
@@ -35,40 +27,17 @@ export default async function Home({
     'year',
   ]
 
-  const validSortOrder = !validSorts.includes(sort) ? 'asc' : sortOrder
+  const validPage = parseInt(page) ? parseInt(page).toString() : '1'
+  const validPerPage = parseInt(perPage) ? parseInt(perPage).toString() : '40'
   const validSort = !validSortOrders.includes(sortOrder) ? 'artist' : sort
-  const validPage = parseInt(page) ? parseInt(page) : '1'
-  const validPerPage = parseInt(perPage) ? parseInt(perPage) : '40'
+  const validSortOrder = !validSorts.includes(sort) ? 'asc' : sortOrder
 
-  const callAPI = async (): Promise<DiscogResponse> => {
-    try {
-      const res = await fetch(
-        `https://api.discogs.com/users/munkle/collection/folders/0/releases?page=${validPage}&per_page=${validPerPage}&sort=${validSort}&sort_order=${validSortOrder}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Discogs key=${DISCOGS_KEY}, secret=${DISCOGS_SECRET}`,
-          },
-        }
-      )
-
-      const data = await res.json()
-
-      const { message } = data
-
-      if (message) {
-        throw new Error(message)
-      }
-
-      return data
-    } catch (err) {
-      console.log(err)
-      throw new Error('Failed to fetch data from Discogs API' + err)
-    }
-  }
-
-  const res = await callAPI()
+  const res = await fetchRecordCollection({
+    page: validPage,
+    perPage: validPerPage,
+    sort: validSort,
+    sortOrder: validSortOrder,
+  })
 
   const { pagination, releases } = res
 
