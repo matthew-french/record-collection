@@ -1,4 +1,5 @@
-import Link from 'next/link'
+'use client'
+
 import CollectionsRecordImage from '@/components/collections-record-image'
 
 interface Artist {
@@ -35,19 +36,17 @@ const CollectionsRecord = ({
 }: RecordProps) => (
   <div
     key={id}
-    className="bg-white dark:bg-gray-950 rounded-lg shadow-lg overflow-hidden"
+    className="bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden"
   >
     <div className="flex flex-col w-full">
       <div className="relative w-full flex-grow">
-        <Link href="#">
-          <CollectionsRecordImage
-            src={`${coverImage || '/placeholder.svg'}`}
-            alt={artist.name}
-            width={640}
-            height={640}
-            className="object-contain rounded-sm"
-          />
-        </Link>
+        <CollectionsRecordImage
+          src={`${coverImage || '/placeholder.svg'}`}
+          alt={artist.name}
+          width={640}
+          height={640}
+          className="object-contain rounded-sm"
+        />
       </div>
       <div className="p-3 pb-1">
         <h3 className="font-semibold mt-1 mb-2">{title}</h3>

@@ -1,10 +1,10 @@
-'use client'
+// import React from 'react'
 
-import React from 'react'
+// const LazyCollectionsRecord = React.lazy(
+//   () => import('@/components/collections-record')
+// )
 
-const LazyCollectionsRecord = React.lazy(
-  () => import('@/components/collections-record')
-)
+import CollectionsRecord from './collections-record'
 
 import CollectionsPagination from '@/components/collections-pagination'
 
@@ -70,7 +70,7 @@ const Collections = ({ pagination, releases }: DiscogResponse) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {/* loop over products */}
         {products.map((product, index) => (
-          <LazyCollectionsRecord key={`${product.id}-${index}`} {...product} />
+          <CollectionsRecord key={`${product.id}-${index}`} {...product} />
         ))}
       </div>
       <div className="mt-8 flex justify-center">
