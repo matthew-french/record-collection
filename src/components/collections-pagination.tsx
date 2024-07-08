@@ -36,12 +36,13 @@ const collectionPagination: React.FC<PaginationProps> = ({
   return (
     <Pagination>
       <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            href={getPaginationUrl(Math.max(1, currentPage - 1))}
-            disabled={currentPage === totalPages}
-          />
-        </PaginationItem>
+        {currentPage > 1 && (
+          <PaginationItem>
+            <PaginationPrevious
+              href={getPaginationUrl(Math.max(1, currentPage - 1))}
+            />
+          </PaginationItem>
+        )}
         {Array.from({ length: totalPages }, (_, i) => i + 1).map(
           (pageNumber) => (
             // Only show iteam if it with 3 of the current page when on mobile
