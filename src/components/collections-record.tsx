@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import CollectionsRecordImage from '@/components/collections-record-image'
 
@@ -22,7 +21,7 @@ interface RecordProps {
   formats: string
 }
 
-const CollectionsRecord: React.FC<RecordProps> = ({
+const CollectionsRecord = ({
   id,
   coverImage,
   artist,
@@ -33,7 +32,7 @@ const CollectionsRecord: React.FC<RecordProps> = ({
   resourceUrl,
   genres,
   formats,
-}) => (
+}: RecordProps) => (
   <div
     key={id}
     className="bg-white dark:bg-gray-950 rounded-lg shadow-lg overflow-hidden"

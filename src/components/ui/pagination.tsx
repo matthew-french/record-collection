@@ -60,9 +60,6 @@ const PaginationLink = ({
         variant: isActive ? 'outline' : 'ghost',
         size,
       }),
-      {
-        invisible: disabled, // Add this line to simulate disabled state
-      },
       className
     )}
     {...props}

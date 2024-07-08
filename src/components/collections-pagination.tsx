@@ -68,12 +68,14 @@ const collectionPagination: React.FC<PaginationProps> = ({
             </PaginationItem>
           )
         )}
-        <PaginationItem>
-          <PaginationNext
-            href={getPaginationUrl(Math.max(1, currentPage + 1))}
-            disabled={currentPage === totalPages}
-          />
-        </PaginationItem>
+        {currentPage < totalPages && (
+          <PaginationItem>
+            <PaginationNext
+              href={getPaginationUrl(Math.max(1, currentPage + 1))}
+              disabled={currentPage === totalPages}
+            />
+          </PaginationItem>
+        )}
       </PaginationContent>
     </Pagination>
   )

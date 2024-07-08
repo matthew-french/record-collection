@@ -31,7 +31,7 @@ interface Product {
   formats: string
 }
 
-const Collections: React.FC<DiscogResponse> = ({ pagination, releases }) => {
+const Collections = ({ pagination, releases }: DiscogResponse) => {
   const currentPage = pagination.page || 1
   const totalPages = pagination.pages
 

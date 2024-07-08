@@ -9,7 +9,7 @@ export default async function Masonry({
 }) {
   const {
     page = '1',
-    perPage = '40',
+    perPage = '50',
     sort = 'artist',
     sortOrder = 'asc',
   } = searchParams
@@ -28,7 +28,7 @@ export default async function Masonry({
   ]
 
   const validPage = parseInt(page) ? parseInt(page).toString() : '1'
-  const validPerPage = parseInt(perPage) ? parseInt(perPage).toString() : '500'
+  const validPerPage = parseInt(perPage) ? parseInt(perPage).toString() : '50'
   const validSort = !validSortOrders.includes(sortOrder) ? 'artist' : sort
   const validSortOrder = !validSorts.includes(sort) ? 'asc' : sortOrder
 

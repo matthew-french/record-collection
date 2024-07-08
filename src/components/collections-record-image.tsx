@@ -72,7 +72,7 @@ const CollectionsRecordImage = ({
         setLoading(true)
       }, delay)
     } else {
-      setCurrentSrc('/placeholder.svg')
+      setCurrentSrc('@/public/static/images/record.webp')
       setLoading(false)
     }
   }
