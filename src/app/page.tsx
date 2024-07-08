@@ -1,5 +1,5 @@
 import Collections from '@/components/collections'
-import { fetchRecordCollection } from '@/lib/data'
+import { fetchRecordCollection } from '@/lib/fetchRecordCollection'
 import SearchParams from '@/types/SearchParams'
 
 export default async function Home({
