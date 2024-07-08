@@ -24,7 +24,7 @@ const fetchRecordCollection = async (
     const data = await res.json()
 
     // Simulate a delay
-    await new Promise((resolve) => setTimeout(resolve, 1000)) // 1000 milliseconds delay
+    // await new Promise((resolve) => setTimeout(resolve, 1000)) // 1000 milliseconds delay
 
     const { message } = data
 

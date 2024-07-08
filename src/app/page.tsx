@@ -27,17 +27,14 @@ export default async function Home({
     'year',
   ]
 
-  const validPage = parseInt(page) ? parseInt(page).toString() : '1'
-  const validPerPage = parseInt(perPage) ? parseInt(perPage).toString() : '48'
-  const validSort = !validSortOrders.includes(sortOrder) ? 'artist' : sort
-  const validSortOrder = !validSorts.includes(sort) ? 'asc' : sortOrder
+  const params = {
+    page: parseInt(page) ? parseInt(page).toString() : '1',
+    perPage: parseInt(perPage) ? parseInt(perPage).toString() : '48',
+    sort: !validSorts.includes(sort) ? 'artist' : sort,
+    sortOrder: !validSortOrders.includes(sortOrder) ? 'asc' : sortOrder,
+  }
 
-  const res = await fetchRecordCollection({
-    page: validPage,
-    perPage: validPerPage,
-    sort: validSort,
-    sortOrder: validSortOrder,
-  })
+  const res = await fetchRecordCollection(params)
 
   const { pagination, releases } = res
 
