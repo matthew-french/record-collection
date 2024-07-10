@@ -17,7 +17,7 @@ interface PaginationProps {
   basePath: string
 }
 
-const collectionPagination: React.FC<PaginationProps> = ({
+const CollectionPagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   perPage,
@@ -82,4 +82,4 @@ const collectionPagination: React.FC<PaginationProps> = ({
   )
 }
 
-export default collectionPagination
+export default CollectionPagination
