@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Flex, Select } from '@radix-ui/themes'
 
 import { useCallback } from 'react'
-import SelectOptions from '@/components/ui/select'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 
 interface CollectionSortBarProps {
