@@ -32,6 +32,7 @@ interface BasicInformation {
   master_url: string
   resource_url: string
   formats: Formats[]
+  labels: Labels[]
 }
 
 interface Formats {
@@ -39,6 +40,14 @@ interface Formats {
   name: string
   qty: string
   text: string
+}
+
+interface Labels {
+  resource_url: string
+  entity_type: string
+  catno: string
+  id: number
+  name: string
 }
 
 interface Artist {

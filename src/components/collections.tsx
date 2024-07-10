@@ -1,22 +1,15 @@
-// import React from 'react'
-
-// const LazyCollectionsRecord = React.lazy(
-//   () => import('@/components/collections-record')
-// )
+'use client'
 
 import CollectionsRecord from './collections-record'
-
 import CollectionsPagination from '@/components/collections-pagination'
 
 import DiscogResponse from '@/types/DiscogResponse'
 import { DiscogRecord } from '@/types/DiscogRecord'
-
 interface Artist {
   name: string
   id: string
   resourceUrl: string
 }
-
 interface Product {
   coverImage: string
   id: number
@@ -29,6 +22,7 @@ interface Product {
   masterUrl: string
   resourceUrl: string
   formats: string
+  labels: string
 }
 
 const Collections = ({ pagination, releases }: DiscogResponse) => {
@@ -36,7 +30,7 @@ const Collections = ({ pagination, releases }: DiscogResponse) => {
   const totalPages = pagination.pages
 
   const products: Product[] = releases.map(
-    ({ basic_information }: DiscogRecord, index) => ({
+    ({ basic_information }: DiscogRecord) => ({
       coverImage: basic_information.cover_image,
       id: basic_information.id,
       thumb: basic_information.thumb,
@@ -54,34 +48,39 @@ const Collections = ({ pagination, releases }: DiscogResponse) => {
       formats: basic_information.formats
         .map((format) => format.name)
         .join(', '),
+      labels: Array.from(new Set(basic_information.labels))
+        .map((label) => label.name)
+        .join(', '),
     })
   )
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8">
-      <div className="mb-8 flex justify-center">
-        <CollectionsPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          perPage={pagination.per_page}
-          basePath={`/`}
-        />
+    <>
+      <div className="container mx-auto px-4 md:px-6 py-8">
+        <div className="mb-8 flex justify-center">
+          <CollectionsPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            perPage={pagination.per_page}
+            basePath={`/`}
+          />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {/* loop over products */}
+          {products.map((product, index) => (
+            <CollectionsRecord key={`${product.id}-${index}`} {...product} />
+          ))}
+        </div>
+        <div className="mt-8 flex justify-center">
+          <CollectionsPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            perPage={pagination.per_page}
+            basePath={`/`}
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {/* loop over products */}
-        {products.map((product, index) => (
-          <CollectionsRecord key={`${product.id}-${index}`} {...product} />
-        ))}
-      </div>
-      <div className="mt-8 flex justify-center">
-        <CollectionsPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          perPage={pagination.per_page}
-          basePath={`/`}
-        />
-      </div>
-    </div>
+    </>
   )
 }
 

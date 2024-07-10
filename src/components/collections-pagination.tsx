@@ -1,4 +1,5 @@
 import React from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 import {
   Pagination,
@@ -22,15 +23,14 @@ const collectionPagination: React.FC<PaginationProps> = ({
   perPage,
   basePath,
 }) => {
-  const getPaginationUrl = (page: number) => {
-    const queryParams = new URLSearchParams({
-      page: page.toString(),
-      perPage: perPage.toString(),
-      sort: 'artist',
-      sortOrder: 'asc',
-    }).toString()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
-    return `${basePath}?${queryParams}`
+  const getPaginationUrl = (dest: Number) => {
+    const sort = searchParams.get('sort') || 'artist'
+    const sortOrder = searchParams.get('sortOrder') || 'asc'
+
+    return `${pathname}?page=${dest}&perPage=${perPage}&sort=${sort}&sortOrder=${sortOrder}`
   }
 
   return (

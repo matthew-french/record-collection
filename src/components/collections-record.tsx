@@ -20,6 +20,7 @@ interface RecordProps {
   masterUrl: string
   resourceUrl: string
   formats: string
+  labels: string
 }
 
 const CollectionsRecord = ({
@@ -33,6 +34,7 @@ const CollectionsRecord = ({
   resourceUrl,
   genres,
   formats,
+  labels,
 }: RecordProps) => (
   <div
     key={id}
@@ -52,18 +54,14 @@ const CollectionsRecord = ({
         <h3 className="font-semibold mt-1 mb-2">{title}</h3>
         <p className="text-gray-500 dark:text-gray-400 mb-2">{artist.name}</p>
         <p className="text-gray-500 dark:text-gray-400 mb-2">{year}</p>
-        <p className="text-gray-500 dark:text-gray-400 mb-4">{formats}</p>
-        <p className="text-gray-500 dark:text-gray-400 mb-1">
+        <p className="text-gray-500 dark:text-gray-400 mb-2">{formats}</p>
+        <p className="text-gray-500 dark:text-gray-400 mb-6">{labels}</p>
+        <p className="text-gray-500 dark:text-gray-400 mb-2">
           {stringToPill(styles)}
+        </p>
+        <p className="text-gray-500 dark:text-gray-400 mb-2">
           {stringToPill(genres)}
         </p>
-
-        {/* <p className="text-gray-500 dark:text-gray-400 mb-2">Id: {artist.id}</p> */}
-        {/* <p className="text-gray-500 dark:text-gray-400 mb-2">Resource URL: {artist.resourceUrl}</p> */}
-        {/* <p className="text-gray-500 dark:text-gray-400 mb-2">Title: {title}</p> */}
-        {/* <p className="text-gray-500 dark:text-gray-400 mb-2">Master URL: {masterUrl}</p>
-        <p className="text-gray-500 dark:text-gray-400 mb-2">Resource URL: {resourceUrl}</p> */}
-        {/* <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{stringToPill(genres)}</p> */}
       </div>
     </div>
   </div>
