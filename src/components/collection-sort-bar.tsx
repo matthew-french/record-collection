@@ -93,7 +93,7 @@ export default function CollectionSortBar({ items }: CollectionSortBarProps) {
   }
 
   return (
-    <Flex gap="3" display="flex">
+    <Flex gap="3" direction="row" justify="center">
       <Select.Root
         size="3"
         value={sortOrder}

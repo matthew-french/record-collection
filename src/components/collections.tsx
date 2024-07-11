@@ -1,7 +1,5 @@
-'use client'
-
+import { Grid, Box } from '@radix-ui/themes'
 import CollectionsRecord from './collections-record'
-import CollectionsPagination from '@/components/collections-pagination'
 
 import DiscogResponse from '@/types/DiscogResponse'
 import { DiscogRecord } from '@/types/DiscogRecord'
@@ -55,32 +53,18 @@ const Collections = ({ pagination, releases }: DiscogResponse) => {
   )
 
   return (
-    <>
-      <div className="container mx-auto px-4 md:px-6 py-8">
-        <div className="mb-8 flex justify-center">
-          <CollectionsPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            perPage={pagination.per_page}
-            basePath={`/`}
-          />
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {/* loop over products */}
-          {products.map((product, index) => (
-            <CollectionsRecord key={`${product.id}-${index}`} {...product} />
-          ))}
-        </div>
-        <div className="mt-8 flex justify-center">
-          <CollectionsPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            perPage={pagination.per_page}
-            basePath={`/`}
-          />
-        </div>
-      </div>
-    </>
+    <Box p="4">
+      <Grid
+        columns={{ initial: '2', md: '3', lg: '4' }}
+        gap="4"
+        width="auto"
+        align="stretch"
+      >
+        {products.map((product, index) => (
+          <CollectionsRecord key={`${product.id}-${index}`} {...product} />
+        ))}
+      </Grid>
+    </Box>
   )
 }
 

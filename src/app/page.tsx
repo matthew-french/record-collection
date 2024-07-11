@@ -5,6 +5,9 @@ import { fetchRecordCollection } from '@/lib/discogs'
 import SearchParams from '@/types/SearchParams'
 
 import CollectionSortBar from '@/components/collection-sort-bar'
+import CollectionPagination from '@/components/collection-pagination'
+
+import { Flex, Container } from '@radix-ui/themes'
 
 // Async function component to render the Home page
 export default async function Home({
@@ -55,9 +58,29 @@ export default async function Home({
 
   // Rendering the main content of the page with Collections component
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between sm:p-1 md:p-12">
-      <CollectionSortBar items={items} />
-      <Collections pagination={pagination} releases={releases} />
+    <main className="">
+      <Container size="4" display="initial">
+        <Flex direction="column" gap="3" pt="3">
+          <CollectionSortBar items={items} />
+          <CollectionPagination
+            totalPages={pagination.pages}
+            perPage={pagination.per_page}
+            basePath="/"
+          />
+          <Collections pagination={pagination} releases={releases} />
+          <CollectionPagination
+            totalPages={pagination.pages}
+            perPage={pagination.per_page}
+            basePath="/"
+          />
+        </Flex>
+      </Container>
     </main>
   )
+}
+
+{
+  /* <Container size="1">
+            <Box py="9" />
+        </Container> */
 }
