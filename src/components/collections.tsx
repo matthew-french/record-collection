@@ -24,9 +24,6 @@ interface Product {
 }
 
 const Collections = ({ pagination, releases }: DiscogResponse) => {
-  const currentPage = pagination.page || 1
-  const totalPages = pagination.pages
-
   const products: Product[] = releases.map(
     ({ basic_information }: DiscogRecord) => ({
       coverImage: basic_information.cover_image,
@@ -58,7 +55,8 @@ const Collections = ({ pagination, releases }: DiscogResponse) => {
         columns={{ initial: '2', md: '3', lg: '4' }}
         gap="4"
         width="auto"
-        align="stretch"
+        align="start"
+        justify={{ initial: 'center' }}
       >
         {products.map((product, index) => (
           <CollectionsRecord key={`${product.id}-${index}`} {...product} />

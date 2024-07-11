@@ -26,7 +26,13 @@ interface RecordProps {
 
 const stringToBadge = (str: string) => {
   return str.split(',').map((item, index) => (
-    <Badge key={index} size="2" variant="outline" radius="large">
+    <Badge
+      className="outline-blue-700"
+      key={index}
+      size="2"
+      variant="outline"
+      radius="large"
+    >
       {item}
     </Badge>
   ))
