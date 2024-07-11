@@ -34,7 +34,7 @@ export default function CollectionSortBar({ items }: CollectionSortBarProps) {
 
   const [sortOrder, setSortOrder] = useState('asc')
   const [sortField, setSortField] = useState('artist')
-  const [perPage, setPerPage] = useState('48')
+  const [perPage, setPerPage] = useState('12')
 
   const createQueryString = useCallback(
     (

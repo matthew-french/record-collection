@@ -18,7 +18,7 @@ export default async function Home({
   // Destructuring and setting default values for search parameters
   const {
     page = '1',
-    perPage = '48',
+    perPage = '12',
     sort = 'artist',
     sortOrder = 'asc',
   } = searchParams
@@ -43,7 +43,7 @@ export default async function Home({
   // Validating and setting search parameters
   const params = {
     page: isNaN(parseInt(page)) || parseInt(page) < 1 ? '1' : page, // Ensuring 'page' is a positive integer, defaulting to '1'
-    perPage: validPerPage.includes(perPage) ? perPage : '48', // Validating 'perPage' parameter, defaulting to '48' if invalid
+    perPage: validPerPage.includes(perPage) ? perPage : '12', // Validating 'perPage' parameter, defaulting to '48' if invalid
     sort: validSorts.includes(sort) ? sort : 'artist', // Validating 'sort' parameter, defaulting to 'artist' if invalid
     sortOrder: validSortOrders.includes(sortOrder) ? sortOrder : 'asc', // Validating 'sortOrder', defaulting to 'asc' if invalid
   }
