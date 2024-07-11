@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import CollectionsRecordImage from '@/components/collections-record-image'
 import { Strong, Card, Box, Text, Inset, Badge, Flex } from '@radix-ui/themes'
 
@@ -24,18 +25,31 @@ interface RecordProps {
   labels: string
 }
 
-const stringToBadge = (str: string) => {
-  return str.split(',').map((item, index) => (
-    <Badge
-      className="outline-blue-700"
-      key={index}
-      size="2"
-      variant="outline"
-      radius="large"
-    >
-      {item}
-    </Badge>
-  ))
+const colors = [
+  'text-blue-300',
+  'text-blue-600',
+  'text-green-300',
+  'text-green-600',
+  'text-red-500',
+  'text-red-700',
+  'text-yellow-300',
+  'text-yellow-600',
+  'text-purple-100',
+  'text-purple-300',
+  'text-indigo-400',
+  'text-indigo-100',
+  'text-pink-300',
+  'text-pink-600',
+  'text-white',
+]
+
+const stringToColorIndex = (str: string) => {
+  let hash = 0
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash)
+    hash = hash & hash // Convert to 32bit integer
+  }
+  return Math.abs(hash) % colors.length // Ensure index is within colors array bounds
 }
 
 const CollectionsRecord = ({
@@ -50,42 +64,63 @@ const CollectionsRecord = ({
   genres,
   formats,
   labels,
-}: RecordProps) => (
-  <Box height="auto" key={id}>
-    <Card size="3" variant="surface">
-      <Inset clip="padding-box" side="top" pb="current">
-        <CollectionsRecordImage
-          src={`${coverImage || '/placeholder.svg'}`}
-          alt={artist.name}
-          width={640}
-          height={640}
-          className="object-contain rounded-sm"
-        />
-      </Inset>
-      <Flex gap="2" justify="center" direction="column">
-        <Text as="p" size="4" color="blue">
-          <Strong>{artist.name}</Strong>
-        </Text>
-        <Text as="p" size="3">
-          <Strong>{title}</Strong>
-        </Text>
-        <Text as="p" size="3">
-          {year}
-        </Text>
-        <Text as="p" size="3">
-          {formats}
-        </Text>
-        <Text as="p" size="3">
-          {labels}
-        </Text>
-      </Flex>
-      <Flex pt="3" gap="3" direction="row" wrap="wrap">
-        {styles && stringToBadge(styles)}
-        {genres && stringToBadge(genres)}
-      </Flex>
-    </Card>
-  </Box>
-)
+}: RecordProps) => {
+  const stringToBadge = (str: string) => {
+    return str.split(',').map((item, index) => (
+      <Badge
+        className="outline-blue-700"
+        key={index}
+        size="2"
+        variant="outline"
+        radius="large"
+      >
+        {item}
+      </Badge>
+    ))
+  }
+
+  const randomColor = useMemo(() => {
+    // Use the artist's name to get a consistent color index
+    return colors[stringToColorIndex(artist.name)]
+  }, [artist.name])
+
+  return (
+    <Box height="auto" key={id}>
+      <Card size="3" variant="surface">
+        <Inset clip="padding-box" side="top" pb="current">
+          <CollectionsRecordImage
+            src={`${coverImage || '/static/images/record.webp'}`}
+            alt={artist.name}
+            width={640}
+            height={640}
+            className="object-contain rounded-sm"
+          />
+        </Inset>
+        <Flex gap="2" justify="center" direction="column">
+          <Text as="p" size="4" className={randomColor}>
+            <Strong>{artist.name}</Strong>
+          </Text>
+          <Text as="p" size="3">
+            <Strong>{title}</Strong>
+          </Text>
+          <Text as="p" size="3">
+            {year}
+          </Text>
+          <Text as="p" size="3">
+            {formats}
+          </Text>
+          <Text as="p" size="3">
+            {labels}
+          </Text>
+        </Flex>
+        <Flex pt="3" gap="3" direction="row" wrap="wrap">
+          {styles && stringToBadge(styles)}
+          {genres && stringToBadge(genres)}
+        </Flex>
+      </Card>
+    </Box>
+  )
+}
 
 export default CollectionsRecord
 

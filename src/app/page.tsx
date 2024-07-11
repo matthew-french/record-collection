@@ -58,7 +58,7 @@ export default async function Home({
 
   // Rendering the main content of the page with Collections component
   return (
-    <main className="">
+    <main className="mb-20">
       <Container size="4" display="initial">
         <Flex direction="column" gap="3" pt="3">
           <CollectionSortBar items={items} />

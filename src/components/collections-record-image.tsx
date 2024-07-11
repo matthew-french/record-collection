@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import record from '@/public/static/images/record.webp'
 
 interface CollectionsRecordImage {
   src: string
@@ -95,7 +96,7 @@ const CollectionsRecordImage = ({
       </div>
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center dark:text-gray-400 z-0">
-          Loading...
+          <p>Loading...</p>
         </div>
       )}
     </div>
