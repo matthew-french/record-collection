@@ -1,7 +1,7 @@
 'use client'
 
 import CollectionsRecordImage from '@/components/collections-record-image'
-import { Flex, Card, Box, Text, Inset } from '@radix-ui/themes'
+import { Strong, Card, Box, Text, Inset, Badge, Flex } from '@radix-ui/themes'
 
 interface Artist {
   name: string
@@ -24,6 +24,14 @@ interface RecordProps {
   labels: string
 }
 
+const stringToBadge = (str: string) => {
+  return str.split(',').map((item, index) => (
+    <Badge key={index} size="2" variant="outline" radius="large">
+      {item}
+    </Badge>
+  ))
+}
+
 const CollectionsRecord = ({
   id,
   coverImage,
@@ -37,8 +45,8 @@ const CollectionsRecord = ({
   formats,
   labels,
 }: RecordProps) => (
-  <Box maxWidth="500" height="auto" key={id}>
-    <Card maxWidth="500" size="3" variant="surface">
+  <Box height="auto" key={id}>
+    <Card size="3" variant="surface">
       <Inset clip="padding-box" side="top" pb="current">
         <CollectionsRecordImage
           src={`${coverImage || '/placeholder.svg'}`}
@@ -48,43 +56,30 @@ const CollectionsRecord = ({
           className="object-contain rounded-sm"
         />
       </Inset>
-      <Flex gap="3" direction="column" align="stretch">
-        <Text as="p" size="4">
-          {title}
+      <Flex gap="2" justify="center" direction="column">
+        <Text as="p" size="4" color="blue">
+          <Strong>{artist.name}</Strong>
         </Text>
-        <Text as="p" size="2">
-          {artist.name}
+        <Text as="p" size="3">
+          <Strong>{title}</Strong>
         </Text>
-        <Text as="p" size="2">
+        <Text as="p" size="3">
           {year}
         </Text>
-        <Text as="p" size="2">
+        <Text as="p" size="3">
           {formats}
         </Text>
-        <Text as="p" size="2">
+        <Text as="p" size="3">
           {labels}
         </Text>
-        <Text as="p" size="2">
-          {stringToPill(styles)}
-        </Text>
-        <Text as="p" size="2">
-          {stringToPill(genres)}
-        </Text>
+      </Flex>
+      <Flex pt="3" gap="3" direction="row" wrap="wrap">
+        {styles && stringToBadge(styles)}
+        {genres && stringToBadge(genres)}
       </Flex>
     </Card>
   </Box>
 )
-
-const stringToPill = (str: string) => {
-  return str.split(',').map((item) => (
-    <span
-      key={item}
-      className="inline-block bg-gray-700 rounded-full px-3 py-2 text-sm text-gray-100 mr-2 mb-2"
-    >
-      {item}
-    </span>
-  ))
-}
 
 export default CollectionsRecord
 
