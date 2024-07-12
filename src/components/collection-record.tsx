@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import CollectionsRecordImage from '@/components/collections-record-image'
+import CollectionRecordImage from '@/components/collection-record-image'
 import { Strong, Card, Box, Text, Inset, Badge, Flex } from '@radix-ui/themes'
 
 interface Artist {
@@ -52,7 +52,7 @@ const stringToColorIndex = (str: string) => {
   return Math.abs(hash) % colors.length // Ensure index is within colors array bounds
 }
 
-const CollectionsRecord = ({
+const CollectionRecord = ({
   id,
   coverImage,
   artist,
@@ -86,9 +86,9 @@ const CollectionsRecord = ({
 
   return (
     <Box height="auto" key={id}>
-      <Card size="3" variant="surface">
+      <Card size="3" variant="surface" className="p-1 md:p-2 lg:p-4">
         <Inset clip="padding-box" side="top" pb="current">
-          <CollectionsRecordImage
+          <CollectionRecordImage
             src={`${coverImage || '/static/images/record.webp'}`}
             alt={artist.name}
             width={640}
@@ -122,7 +122,7 @@ const CollectionsRecord = ({
   )
 }
 
-export default CollectionsRecord
+export default CollectionRecord
 
 {
   /* <div
@@ -131,7 +131,7 @@ export default CollectionsRecord
   >
     <div className="flex flex-col">
       <div className="relative">
-        <CollectionsRecordImage
+        <CollectionRecordImage
           src={`${coverImage || '/placeholder.svg'}`}
           alt={artist.name}
           width={640}

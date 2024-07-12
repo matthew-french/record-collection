@@ -1,5 +1,5 @@
 import { Grid, Box } from '@radix-ui/themes'
-import CollectionsRecord from './collections-record'
+import CollectionRecord from './collection-record'
 
 import DiscogResponse from '@/types/DiscogResponse'
 import { DiscogRecord } from '@/types/DiscogRecord'
@@ -23,7 +23,7 @@ interface Product {
   labels: string
 }
 
-const Collections = ({ pagination, releases }: DiscogResponse) => {
+const Collection = ({ pagination, releases }: DiscogResponse) => {
   const products: Product[] = releases.map(
     ({ basic_information }: DiscogRecord) => ({
       coverImage: basic_information.cover_image,
@@ -52,18 +52,18 @@ const Collections = ({ pagination, releases }: DiscogResponse) => {
   return (
     <Box p="4">
       <Grid
-        columns={{ initial: '2', md: '3', lg: '4' }}
+        columns={{ initial: '2', sm: '3', md: '4', lg: '5' }}
         gap="4"
         width="auto"
         align="start"
         justify={{ initial: 'center' }}
       >
         {products.map((product, index) => (
-          <CollectionsRecord key={`${product.id}-${index}`} {...product} />
+          <CollectionRecord key={`${product.id}-${index}`} {...product} />
         ))}
       </Grid>
     </Box>
   )
 }
 
-export default Collections
+export default Collection

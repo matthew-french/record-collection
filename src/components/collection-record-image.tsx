@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import record from '@/public/static/images/record.webp'
 
-interface CollectionsRecordImage {
+interface CollectionRecordImage {
   src: string
   alt: string
   width: number
@@ -14,13 +14,13 @@ interface CollectionsRecordImage {
 
 const imageCache = new Set()
 
-const CollectionsRecordImage = ({
+const CollectionRecordImage = ({
   src,
   alt,
   width,
   height,
   className,
-}: CollectionsRecordImage) => {
+}: CollectionRecordImage) => {
   const [currentSrc, setCurrentSrc] = useState(src)
   const [loading, setLoading] = useState(true)
   const [attempts, setAttempts] = useState(0)
@@ -103,4 +103,4 @@ const CollectionsRecordImage = ({
   )
 }
 
-export default CollectionsRecordImage
+export default CollectionRecordImage

@@ -8,7 +8,7 @@ import '@/styles/globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Discogs Collections',
+  title: 'Discogs Collection',
   description: 'A nextjs app for browsing my discogs collections',
 }
 

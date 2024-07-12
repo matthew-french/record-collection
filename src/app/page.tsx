@@ -1,5 +1,5 @@
 // Importing necessary components and functions
-import Collections from '@/components/collections'
+import Collection from '@/components/collection'
 import { fetchRecordCollection } from '@/lib/discogs'
 // Importing type definitions
 import SearchParams from '@/types/SearchParams'
@@ -38,7 +38,7 @@ export default async function Home({
     'year',
   ]
 
-  const validPerPage = ['12', '24', '48']
+  const validPerPage = ['12', '24', '48', '60', '100']
 
   // Validating and setting search parameters
   const params = {
@@ -56,7 +56,7 @@ export default async function Home({
 
   const items = pagination.items
 
-  // Rendering the main content of the page with Collections component
+  // Rendering the main content of the page with Collection component
   return (
     <main className="mb-20">
       <Container size="4" display="initial">
@@ -67,7 +67,7 @@ export default async function Home({
             perPage={pagination.per_page}
             basePath="/"
           />
-          <Collections pagination={pagination} releases={releases} />
+          <Collection pagination={pagination} releases={releases} />
           <CollectionPagination
             totalPages={pagination.pages}
             perPage={pagination.per_page}

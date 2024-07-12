@@ -25,6 +25,8 @@ const perPageOptions: { [key: string]: string } = {
   12: '12',
   24: '24',
   48: '48',
+  60: '60',
+  100: '100',
 }
 
 export default function CollectionSortBar({ items }: CollectionSortBarProps) {
