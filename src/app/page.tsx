@@ -9,6 +9,8 @@ import CollectionPagination from '@/components/collection-pagination'
 
 import { Flex, Container } from '@radix-ui/themes'
 
+import { Suspense } from 'react'
+
 // Async function component to render the Home page
 export default async function Home({
   searchParams,
@@ -58,29 +60,32 @@ export default async function Home({
 
   // Rendering the main content of the page with Collection component
   return (
-    <main className="mb-20">
-      <Container size="4" display="initial">
-        <Flex direction="column" gap="3" pt="3">
+    <main className='mb-20'>
+      <Container size='4' display='initial'>
+        <Flex direction='column' gap='3' pt='3'>
           <CollectionSortBar items={items} />
           <CollectionPagination
             totalPages={pagination.pages}
             perPage={pagination.per_page}
-            basePath="/"
+            basePath='/'
           />
-          <Collection pagination={pagination} releases={releases} />
+          <Suspense
+            key={page + perPage + sort + sortOrder}
+            fallback={
+              <div className='flex h-96 items-center justify-center'>
+                <div className='h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900'></div>
+              </div>
+            }
+          >
+            <Collection releases={releases} />
+          </Suspense>
           <CollectionPagination
             totalPages={pagination.pages}
             perPage={pagination.per_page}
-            basePath="/"
+            basePath='/'
           />
         </Flex>
       </Container>
     </main>
   )
-}
-
-{
-  /* <Container size="1">
-            <Box py="9" />
-        </Container> */
 }

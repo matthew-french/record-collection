@@ -1,14 +1,13 @@
 import { Grid, Box } from '@radix-ui/themes'
 import CollectionRecord from './collection-record'
 
-import DiscogResponse from '@/types/DiscogResponse'
 import { DiscogRecord } from '@/types/DiscogRecord'
 interface Artist {
   name: string
   id: string
   resourceUrl: string
 }
-interface Product {
+interface Record {
   coverImage: string
   id: number
   thumb: string
@@ -23,8 +22,8 @@ interface Product {
   labels: string
 }
 
-const Collection = ({ pagination, releases }: DiscogResponse) => {
-  const products: Product[] = releases.map(
+const Collection = ({ releases }: { releases: DiscogRecord[] }) => {
+  const records: Record[] = releases.map(
     ({ basic_information }: DiscogRecord) => ({
       coverImage: basic_information.cover_image,
       id: basic_information.id,
@@ -50,15 +49,15 @@ const Collection = ({ pagination, releases }: DiscogResponse) => {
   )
 
   return (
-    <Box p="4">
+    <Box p='4'>
       <Grid
         columns={{ initial: '2', sm: '3', md: '4', lg: '5' }}
-        gap="4"
-        width="auto"
-        align="start"
+        gap='4'
+        width='auto'
+        align='start'
         justify={{ initial: 'center' }}
       >
-        {products.map((product, index) => (
+        {records.map((product, index) => (
           <CollectionRecord key={`${product.id}-${index}`} {...product} />
         ))}
       </Grid>

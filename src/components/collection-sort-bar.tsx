@@ -1,9 +1,10 @@
 'use client'
+
 import { useState } from 'react'
 import { Flex, Select } from '@radix-ui/themes'
-
-import { useCallback } from 'react'
 import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+
+import useCreateQueryString from '@/hooks/useCreateQueryString'
 
 interface CollectionSortBarProps {
   items: number
@@ -30,7 +31,7 @@ const perPageOptions: { [key: string]: string } = {
 }
 
 export default function CollectionSortBar({ items }: CollectionSortBarProps) {
-  const router = useRouter()
+  const { replace } = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -38,40 +39,20 @@ export default function CollectionSortBar({ items }: CollectionSortBarProps) {
   const [sortField, setSortField] = useState('artist')
   const [perPage, setPerPage] = useState('12')
 
-  const createQueryString = useCallback(
-    (
-      paramsToUpdate:
-        | { name: string; value: string }[]
-        | { name: string; value: string }
-    ) => {
-      const params = new URLSearchParams(searchParams.toString())
-
-      // Ensure paramsToUpdate is always treated as an array
-      const updatesArray = Array.isArray(paramsToUpdate)
-        ? paramsToUpdate
-        : [paramsToUpdate]
-
-      updatesArray.forEach(({ name, value }) => {
-        params.set(name, value)
-      })
-
-      return params.toString()
-    },
-    [searchParams]
-  )
+  const createQueryString = useCreateQueryString(searchParams)
 
   const handleSortOrderChange = (value: string) => {
     setSortOrder(value)
+    const queryString = createQueryString([{ name: 'sortOrder', value }])
 
-    router.push(
-      `${pathname}?${createQueryString([{ name: 'sortOrder', value }])}`
-    )
+    replace(`${pathname}?${queryString}`)
   }
 
   const handleSortFieldChange = (value: string) => {
     setSortField(value)
+    const queryString = createQueryString([{ name: 'sort', value }])
 
-    router.push(`${pathname}?${createQueryString([{ name: 'sort', value }])}`)
+    replace(`${pathname}?${queryString}`)
   }
 
   const handlePerPageChange = (value: string) => {
@@ -79,30 +60,29 @@ export default function CollectionSortBar({ items }: CollectionSortBarProps) {
 
     const totalPages = Math.ceil(items / parseInt(value))
     const page = searchParams.get('page') || '1'
+    const queryString = createQueryString([
+      { name: 'perPage', value },
+      { name: 'page', value: page },
+    ])
 
     if (parseInt(page) > totalPages) {
-      router.push(
-        `${pathname}?${createQueryString([
-          { name: 'perPage', value },
-          { name: 'page', value: totalPages.toString() },
-        ])}`
-      )
+      replace(`${pathname}?${queryString}`)
 
       return
     }
 
-    router.push(`${pathname}?${createQueryString({ name: 'perPage', value })}`)
+    replace(`${pathname}?${createQueryString({ name: 'perPage', value })}`)
   }
 
   return (
-    <Flex gap="3" direction="row" justify="center">
+    <Flex gap='3' direction='row' justify='center'>
       <Select.Root
-        size="3"
+        size='3'
         value={sortOrder}
         onValueChange={handleSortOrderChange}
       >
         <Select.Trigger>{sortOrderOptions[sortOrder]}</Select.Trigger>
-        <Select.Content position="popper">
+        <Select.Content position='popper'>
           {Object.keys(sortOrderOptions).map((order) => (
             <Select.Item key={order} value={order}>
               {order.toUpperCase()}
@@ -112,12 +92,12 @@ export default function CollectionSortBar({ items }: CollectionSortBarProps) {
       </Select.Root>
 
       <Select.Root
-        size="3"
+        size='3'
         value={sortField}
         onValueChange={handleSortFieldChange}
       >
         <Select.Trigger>{sortFieldOptions[sortField]}</Select.Trigger>
-        <Select.Content position="popper">
+        <Select.Content position='popper'>
           {Object.keys(sortFieldOptions).map((field) => (
             <Select.Item key={field} value={field}>
               {sortFieldOptions[field]}
@@ -125,9 +105,9 @@ export default function CollectionSortBar({ items }: CollectionSortBarProps) {
           ))}
         </Select.Content>
       </Select.Root>
-      <Select.Root size="3" value={perPage} onValueChange={handlePerPageChange}>
+      <Select.Root size='3' value={perPage} onValueChange={handlePerPageChange}>
         <Select.Trigger>{perPageOptions[perPage]}</Select.Trigger>
-        <Select.Content position="popper">
+        <Select.Content position='popper'>
           {Object.keys(perPageOptions).map((size) => (
             <Select.Item key={size} value={size}>
               {perPageOptions[size]}
