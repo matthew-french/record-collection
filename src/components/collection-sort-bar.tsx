@@ -58,20 +58,19 @@ export default function CollectionSortBar({ items }: CollectionSortBarProps) {
   const handlePerPageChange = (value: string) => {
     setPerPage(value)
 
-    const totalPages = Math.ceil(items / parseInt(value))
     const page = searchParams.get('page') || '1'
+    const totalPages = Math.ceil(items / parseInt(value))
+    const isPageGreaterThanTotalPages = parseInt(page) > totalPages
+
     const queryString = createQueryString([
       { name: 'perPage', value },
-      { name: 'page', value: page },
+      {
+        name: 'page',
+        value: isPageGreaterThanTotalPages ? `${totalPages}` : page,
+      },
     ])
 
-    if (parseInt(page) > totalPages) {
-      replace(`${pathname}?${queryString}`)
-
-      return
-    }
-
-    replace(`${pathname}?${createQueryString({ name: 'perPage', value })}`)
+    replace(`${pathname}?${queryString}`)
   }
 
   return (
@@ -105,6 +104,7 @@ export default function CollectionSortBar({ items }: CollectionSortBarProps) {
           ))}
         </Select.Content>
       </Select.Root>
+
       <Select.Root size='3' value={perPage} onValueChange={handlePerPageChange}>
         <Select.Trigger>{perPageOptions[perPage]}</Select.Trigger>
         <Select.Content position='popper'>

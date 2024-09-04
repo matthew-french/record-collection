@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import record from '@/public/static/images/record.webp'
 
 interface CollectionRecordImage {
   src: string
@@ -24,7 +23,7 @@ const CollectionRecordImage = ({
   const [currentSrc, setCurrentSrc] = useState(src)
   const [loading, setLoading] = useState(true)
   const [attempts, setAttempts] = useState(0)
-  const [isInView, setIsInView] = useState(false) // Renamed isPriority to isInView for clarity
+  const [isInView, setIsInView] = useState(false)
   const imageRef = useRef(null)
 
   useEffect(() => {
@@ -81,8 +80,8 @@ const CollectionRecordImage = ({
   }
 
   return (
-    <div ref={imageRef} className="relative">
-      <div className="relative aspect-w-1 aspect-h-1 z-10">
+    <div ref={imageRef} className='relative'>
+      <div className='aspect-w-1 aspect-h-1 relative z-10'>
         <Image
           src={currentSrc}
           alt={alt}
@@ -95,7 +94,7 @@ const CollectionRecordImage = ({
         />
       </div>
       {loading && (
-        <div className="absolute inset-0 flex items-center justify-center dark:text-gray-400 z-0">
+        <div className='absolute inset-0 z-0 flex items-center justify-center dark:text-gray-400'>
           <p>Loading...</p>
         </div>
       )}
