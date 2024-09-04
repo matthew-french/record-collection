@@ -40,7 +40,7 @@ export default async function Home({
     'year',
   ]
 
-  const validPerPage = ['12', '24', '48', '60', '100']
+  const validPerPage = ['12', '24', '48', '60']
 
   // Validating and setting search parameters
   const params = {
